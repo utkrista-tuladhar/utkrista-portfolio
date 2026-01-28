@@ -6,12 +6,23 @@
  * - Clean typography hierarchy with Poppins headings
  * - Asymmetric layout with strategic whitespace
  * - Smooth scroll-triggered animations
+ * 
+ * Data Structure:
+ * - All content is imported from separate data files
+ * - Components use loops to render data dynamically
+ * - Easy to maintain and update content
  */
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ExternalLink, Github, Linkedin, Mail, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
+import { portfolioData } from "@/data/portfolio";
+import { experienceData } from "@/data/experience";
+import { educationData } from "@/data/education";
+import { projectsData, openSourceProjects, personalProjects } from "@/data/projects";
+import { technicalSkills, toolsAndSkills, languages } from "@/data/skills";
+import { contactData, quickFacts } from "@/data/contact";
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -83,17 +94,17 @@ export default function Home() {
           >
             <div className="space-y-2">
               <h1 className="text-6xl md:text-7xl font-bold text-foreground leading-tight">
-                Utkrista
+                {portfolioData.name.split(" ")[0]}
                 <br />
-                <span className="text-accent">Tuladhar</span>
+                <span className="text-accent">{portfolioData.name.split(" ")[1]}</span>
               </h1>
               <p className="text-xl text-muted-foreground">
-                Angular Developer | Web Application Specialist
+                {portfolioData.title} | {portfolioData.subtitle}
               </p>
             </div>
 
             <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">
-              Dedicated Angular developer with 3+ years of experience building dynamic, responsive web applications. Specialized in creating scalable components, optimizing performance, and delivering exceptional user experiences.
+              {portfolioData.bio}
             </p>
 
             <div className="flex gap-4 pt-4">
@@ -110,7 +121,7 @@ export default function Home() {
 
             <div className="flex gap-6 pt-4">
               <a
-                href="https://linkedin.com/in/utkrista-tuladhar"
+                href={portfolioData.socialLinks.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-accent transition-colors"
@@ -118,7 +129,7 @@ export default function Home() {
                 <Linkedin size={20} />
               </a>
               <a
-                href="https://github.com/utkrista-tuladhar"
+                href={portfolioData.socialLinks.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-accent transition-colors"
@@ -126,7 +137,7 @@ export default function Home() {
                 <Github size={20} />
               </a>
               <a
-                href="mailto:utktul10@gmail.com"
+                href={`mailto:${portfolioData.socialLinks.email}`}
                 className="text-muted-foreground hover:text-accent transition-colors"
               >
                 <Mail size={20} />
@@ -150,88 +161,36 @@ export default function Home() {
           <h2 className="text-5xl font-bold mb-16">Experience</h2>
 
           <div className="space-y-12">
-            {/* Code Himalaya */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-              <div className="md:col-span-1">
-                <h3 className="text-xl font-bold text-accent">Aug 2023 - Present</h3>
-                <p className="text-muted-foreground mt-2">Kupondole, Lalitpur</p>
-              </div>
-              <div className="md:col-span-2 space-y-4">
-                <div>
-                  <h4 className="text-2xl font-bold">Angular Developer</h4>
-                  <p className="text-lg text-accent">Code Himalaya Pvt. Ltd.</p>
+            {experienceData.map((exp, index) => (
+              <div key={exp.id}>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                  <div className="md:col-span-1">
+                    <h3 className="text-xl font-bold text-accent">
+                      {exp.startDate} - {exp.endDate}
+                    </h3>
+                    <p className="text-muted-foreground mt-2">{exp.location}</p>
+                  </div>
+                  <div className="md:col-span-2 space-y-4">
+                    <div>
+                      <h4 className="text-2xl font-bold">{exp.title}</h4>
+                      <p className="text-lg text-accent">{exp.company}</p>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed">{exp.description}</p>
+                    {exp.highlights.length > 0 && (
+                      <ul className="space-y-2 text-muted-foreground">
+                        {exp.highlights.map((highlight, idx) => (
+                          <li key={idx} className="flex gap-2">
+                            <span className="text-accent">•</span>
+                            <span>{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  Building and maintaining web applications using Angular, HTML, CSS, and JavaScript. Designing scalable, reusable components following best practices and design patterns. Implementing efficient routing, data binding, and services with dependency injection.
-                </p>
-                <ul className="space-y-2 text-muted-foreground">
-                  <li className="flex gap-2">
-                    <span className="text-accent">•</span>
-                    <span>Implemented server-side rendering for SEO optimization</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">•</span>
-                    <span>Mentored junior developers on best practices</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">•</span>
-                    <span>Led frontend team on multiple production applications</span>
-                  </li>
-                </ul>
+                {index < experienceData.length - 1 && <div className="h-px bg-border mt-12" />}
               </div>
-            </div>
-
-            <div className="h-px bg-border" />
-
-            {/* IMS Software */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-              <div className="md:col-span-1">
-                <h3 className="text-xl font-bold text-accent">Jun 2022 - Aug 2023</h3>
-                <p className="text-muted-foreground mt-2">Tripureshwor, Kathmandu</p>
-              </div>
-              <div className="md:col-span-2 space-y-4">
-                <div>
-                  <h4 className="text-2xl font-bold">Associate Software Engineer (Angular)</h4>
-                  <p className="text-lg text-accent">IMS Software Pvt. Ltd.</p>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  Analyzed software requirements, addressed bugs, and implemented features. Designed and developed web-based software focusing on POS systems, inventory management, and accounting applications.
-                </p>
-                <ul className="space-y-2 text-muted-foreground">
-                  <li className="flex gap-2">
-                    <span className="text-accent">•</span>
-                    <span>Applied agile development methodologies</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">•</span>
-                    <span>Utilized Git for version control and team collaboration</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">•</span>
-                    <span>Provided comprehensive codebase documentation</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="h-px bg-border" />
-
-            {/* Technorio */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-              <div className="md:col-span-1">
-                <h3 className="text-xl font-bold text-accent">Dec 2021 - May 2022</h3>
-                <p className="text-muted-foreground mt-2">Shankhamul, Kathmandu</p>
-              </div>
-              <div className="md:col-span-2 space-y-4">
-                <div>
-                  <h4 className="text-2xl font-bold">Web Developer Intern</h4>
-                  <p className="text-lg text-accent">Technorio Inc.</p>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  Gained hands-on experience in web development with focus on HTML, CSS, and JavaScript. Developed strong understanding of component-based architecture and interactive UI design.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -242,162 +201,58 @@ export default function Home() {
           <h2 className="text-5xl font-bold mb-16">Featured Projects</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Hiperbrains */}
-            <Card className="bg-card border-border hover:border-accent transition-colors group overflow-hidden">
-              <div className="p-8 space-y-4">
-                <h3 className="text-2xl font-bold group-hover:text-accent transition-colors">
-                  Hiperbrains Job Portal
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Comprehensive job portal application with video conferencing, whiteboard sharing, and payment integration.
-                </p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Online video conferencing with whiteboard</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Firebase push notifications</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>OTP verification via Twilio</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>PayPal & Stripe integration</span>
-                  </li>
-                </ul>
-                <div className="flex gap-2 pt-4">
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">Angular</span>
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">Firebase</span>
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">Stripe</span>
+            {projectsData.map((project) => (
+              <Card
+                key={project.id}
+                className="bg-card border-border hover:border-accent transition-colors group overflow-hidden"
+              >
+                <div className="p-8 space-y-4">
+                  <h3 className="text-2xl font-bold group-hover:text-accent transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">{project.description}</p>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    {project.highlights.map((highlight, idx) => (
+                      <li key={idx} className="flex gap-2">
+                        <span className="text-accent">✓</span>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex gap-2 pt-4 flex-wrap">
+                    {project.technologies.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </Card>
-
-            {/* Case Status */}
-            <Card className="bg-card border-border hover:border-accent transition-colors group overflow-hidden">
-              <div className="p-8 space-y-4">
-                <h3 className="text-2xl font-bold group-hover:text-accent transition-colors">
-                  Case Status Management
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Legal case management system for tracking and monitoring court cases in India with real-time updates.
-                </p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Case search and tracking</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Real-time notifications</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>User-friendly interface</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Improved case management efficiency</span>
-                  </li>
-                </ul>
-                <div className="flex gap-2 pt-4">
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">Angular</span>
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">REST API</span>
-                </div>
-              </div>
-            </Card>
-
-            {/* SSF */}
-            <Card className="bg-card border-border hover:border-accent transition-colors group overflow-hidden">
-              <div className="p-8 space-y-4">
-                <h3 className="text-2xl font-bold group-hover:text-accent transition-colors">
-                  Social Security Fund (SSF)
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Government social security fund tracking and administration system for Nepal.
-                </p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Fund tracking and administration</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Accurate financial records</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Government compliance</span>
-                  </li>
-                </ul>
-                <div className="flex gap-2 pt-4">
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">Angular</span>
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">Government</span>
-                </div>
-              </div>
-            </Card>
-
-            {/* HR Accounting */}
-            <Card className="bg-card border-border hover:border-accent transition-colors group overflow-hidden">
-              <div className="p-8 space-y-4">
-                <h3 className="text-2xl font-bold group-hover:text-accent transition-colors">
-                  HR Accounting & Inventory
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Comprehensive business management system integrating user management, inventory, and accounting.
-                </p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>User management system</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Inventory tracking</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Basic accounting functions</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-accent">✓</span>
-                    <span>Enhanced organizational efficiency</span>
-                  </li>
-                </ul>
-                <div className="flex gap-2 pt-4">
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">Angular</span>
-                  <span className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full">Full-Stack</span>
-                </div>
-              </div>
-            </Card>
+              </Card>
+            ))}
           </div>
 
           <div className="mt-12 p-8 bg-card border border-border rounded-lg">
             <h3 className="text-xl font-bold mb-4">Open Source & Personal Projects</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <a
-                href="https://github.com/utkrista-tuladhar/movie-review-app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-accent hover:underline"
-              >
-                Movie Review App <ExternalLink size={16} />
-              </a>
-              <a
-                href="https://github.com/utkrista-tuladhar/expense-tracker-app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-accent hover:underline"
-              >
-                Expense Tracker <ExternalLink size={16} />
-              </a>
-              <div className="text-muted-foreground">
-                Hand Sign Language Recognition (Final Year Project)
-              </div>
+              {openSourceProjects.map((project) => (
+                <a
+                  key={project.title}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-accent hover:underline"
+                >
+                  {project.title} <ExternalLink size={16} />
+                </a>
+              ))}
+              {personalProjects.map((project) => (
+                <div key={project} className="text-muted-foreground">
+                  {project}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -414,14 +269,7 @@ export default function Home() {
               <div>
                 <h3 className="text-2xl font-bold mb-6">Technical Skills</h3>
                 <div className="space-y-3">
-                  {[
-                    "Angular",
-                    "TypeScript",
-                    "HTML & CSS",
-                    "JavaScript",
-                    "Server-Side Rendering",
-                    "REST APIs",
-                  ].map((skill) => (
+                  {technicalSkills.map((skill) => (
                     <div
                       key={skill}
                       className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors"
@@ -439,14 +287,7 @@ export default function Home() {
               <div>
                 <h3 className="text-2xl font-bold mb-6">Tools & Other Skills</h3>
                 <div className="space-y-3">
-                  {[
-                    "Git & Version Control",
-                    "Webpack & Module Bundlers",
-                    "Firebase",
-                    "Payment Integration (Stripe, PayPal)",
-                    "Agile Development",
-                    "Adobe Photoshop",
-                  ].map((skill) => (
+                  {toolsAndSkills.map((skill) => (
                     <div
                       key={skill}
                       className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors"
@@ -461,7 +302,7 @@ export default function Home() {
               <div>
                 <h3 className="text-2xl font-bold mb-4">Languages</h3>
                 <div className="space-y-2">
-                  {["Nepali (Native)", "English (Fluent)", "Nepal Bhasa"].map((lang) => (
+                  {languages.map((lang) => (
                     <div key={lang} className="flex items-center gap-2">
                       <span className="text-accent">•</span>
                       <span>{lang}</span>
@@ -480,27 +321,22 @@ export default function Home() {
           <h2 className="text-5xl font-bold mb-16">Education</h2>
 
           <div className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-              <div className="md:col-span-1">
-                <h3 className="text-xl font-bold text-accent">Sep 2024 - Present</h3>
+            {educationData.map((edu, index) => (
+              <div key={edu.id}>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                  <div className="md:col-span-1">
+                    <h3 className="text-xl font-bold text-accent">
+                      {edu.startDate} - {edu.endDate}
+                    </h3>
+                  </div>
+                  <div className="md:col-span-2">
+                    <h4 className="text-2xl font-bold">{edu.degree}</h4>
+                    <p className="text-lg text-accent">{edu.institution}, {edu.location}</p>
+                  </div>
+                </div>
+                {index < educationData.length - 1 && <div className="h-px bg-border mt-8" />}
               </div>
-              <div className="md:col-span-2">
-                <h4 className="text-2xl font-bold">MBA</h4>
-                <p className="text-lg text-accent">Lincoln International College, Kathmandu</p>
-              </div>
-            </div>
-
-            <div className="h-px bg-border" />
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-              <div className="md:col-span-1">
-                <h3 className="text-xl font-bold text-accent">Oct 2017 - Oct 2022</h3>
-              </div>
-              <div className="md:col-span-2">
-                <h4 className="text-2xl font-bold">BSc. CSIT (Computer Science & IT)</h4>
-                <p className="text-lg text-accent">Prime College, Kathmandu</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -513,84 +349,43 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="space-y-6">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hello, feel free to reach out!
+                I'm always interested in hearing about new projects and opportunities. Whether you
+                have a question or just want to say hello, feel free to reach out!
               </p>
 
               <div className="space-y-4">
-                <div className="flex gap-4 items-start">
-                  <Mail className="text-accent mt-1" size={20} />
-                  <div>
-                    <p className="font-medium">Email</p>
-                    <a
-                      href="mailto:utktul10@gmail.com"
-                      className="text-accent hover:underline"
-                    >
-                      utktul10@gmail.com
-                    </a>
+                {contactData.map((contact) => (
+                  <div key={contact.type} className="flex gap-4 items-start">
+                    {contact.type === "email" && <Mail className="text-accent mt-1" size={20} />}
+                    {contact.type === "linkedin" && (
+                      <Linkedin className="text-accent mt-1" size={20} />
+                    )}
+                    {contact.type === "github" && <Github className="text-accent mt-1" size={20} />}
+                    {contact.type === "phone" && (
+                      <div className="text-accent mt-1">📱</div>
+                    )}
+                    <div>
+                      <p className="font-medium">{contact.label}</p>
+                      <a href={contact.href} className="text-accent hover:underline">
+                        {contact.value}
+                      </a>
+                    </div>
                   </div>
-                </div>
-
-                <div className="flex gap-4 items-start">
-                  <Linkedin className="text-accent mt-1" size={20} />
-                  <div>
-                    <p className="font-medium">LinkedIn</p>
-                    <a
-                      href="https://linkedin.com/in/utkrista-tuladhar"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-accent hover:underline"
-                    >
-                      linkedin.com/in/utkrista-tuladhar
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start">
-                  <Github className="text-accent mt-1" size={20} />
-                  <div>
-                    <p className="font-medium">GitHub</p>
-                    <a
-                      href="https://github.com/utkrista-tuladhar"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-accent hover:underline"
-                    >
-                      github.com/utkrista-tuladhar
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex gap-4 items-start">
-                  <div className="text-accent mt-1">📱</div>
-                  <div>
-                    <p className="font-medium">Phone</p>
-                    <a href="tel:+977-9843139157" className="text-accent hover:underline">
-                      +977-9843139157
-                    </a>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
             <div className="bg-card border border-border rounded-lg p-8">
               <h3 className="text-2xl font-bold mb-6">Quick Facts</h3>
               <div className="space-y-4">
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wide">Location</p>
-                  <p className="text-lg font-medium">Kathmandu, Nepal</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wide">Experience</p>
-                  <p className="text-lg font-medium">3+ Years</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wide">Specialization</p>
-                  <p className="text-lg font-medium">Angular & Frontend Development</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground uppercase tracking-wide">Currently</p>
-                  <p className="text-lg font-medium">Open to Opportunities</p>
-                </div>
+                {quickFacts.map((fact) => (
+                  <div key={fact.label}>
+                    <p className="text-sm text-muted-foreground uppercase tracking-wide">
+                      {fact.label}
+                    </p>
+                    <p className="text-lg font-medium">{fact.value}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -601,11 +396,11 @@ export default function Home() {
       <footer className="border-t border-border py-8">
         <div className="container flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-sm">
-            © 2026 Utkrista Tuladhar. All rights reserved.
+            © 2026 {portfolioData.name}. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a
-              href="https://linkedin.com/in/utkrista-tuladhar"
+              href={portfolioData.socialLinks.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-accent transition-colors"
@@ -613,7 +408,7 @@ export default function Home() {
               LinkedIn
             </a>
             <a
-              href="https://github.com/utkrista-tuladhar"
+              href={portfolioData.socialLinks.github}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-accent transition-colors"
@@ -621,7 +416,7 @@ export default function Home() {
               GitHub
             </a>
             <a
-              href="mailto:utktul10@gmail.com"
+              href={`mailto:${portfolioData.socialLinks.email}`}
               className="text-muted-foreground hover:text-accent transition-colors"
             >
               Email
