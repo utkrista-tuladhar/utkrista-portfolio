@@ -114,9 +114,13 @@ export default function Home() {
               >
                 Get in Touch
               </Button>
-              <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">
+              <a
+                href="/assets/Utkrista-Tuladhar-Resume.pdf"
+                download="Utkrista-Tuladhar-Resume.pdf"
+                className="inline-flex items-center justify-center px-4 py-2 border border-accent text-accent hover:bg-accent/10 rounded-md transition-colors font-medium"
+              >
                 View Resume
-              </Button>
+              </a>
             </div>
 
             <div className="flex gap-6 pt-4">
