@@ -413,26 +413,21 @@ export default function Home() {
             <div className="space-y-8">
               <div>
                 <h3 className="text-2xl font-bold mb-6">Technical Skills</h3>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {[
-                    { skill: "Angular", level: 95 },
-                    { skill: "TypeScript", level: 90 },
-                    { skill: "HTML & CSS", level: 95 },
-                    { skill: "JavaScript", level: 90 },
-                    { skill: "Server-Side Rendering", level: 85 },
-                    { skill: "REST APIs", level: 90 },
-                  ].map((item) => (
-                    <div key={item.skill}>
-                      <div className="flex justify-between mb-2">
-                        <span className="font-medium">{item.skill}</span>
-                        <span className="text-accent text-sm">{item.level}%</span>
-                      </div>
-                      <div className="h-2 bg-card rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-accent transition-all duration-500"
-                          style={{ width: `${item.level}%` }}
-                        />
-                      </div>
+                    "Angular",
+                    "TypeScript",
+                    "HTML & CSS",
+                    "JavaScript",
+                    "Server-Side Rendering",
+                    "REST APIs",
+                  ].map((skill) => (
+                    <div
+                      key={skill}
+                      className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors"
+                    >
+                      <div className="w-2 h-2 bg-accent rounded-full" />
+                      <span>{skill}</span>
                     </div>
                   ))}
                 </div>
