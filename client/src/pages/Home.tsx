@@ -149,8 +149,15 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hidden md:block relative h-96">
-            <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent rounded-lg" />
+          <div className="hidden md:block relative h-96 flex items-center justify-center">
+            <div className="relative w-full h-full rounded-lg overflow-hidden border-2 border-accent/30">
+              <img
+                src={portfolioData.profilePhoto}
+                alt="Utkrista Tuladhar"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent" />
+            </div>
           </div>
         </div>
 
