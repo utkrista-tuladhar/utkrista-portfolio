@@ -87,25 +87,25 @@ export default function Home() {
           <div className="hidden md:flex gap-8">
             <button
               onClick={() => scrollToSection("experience")}
-              className="text-sm hover:text-accent transition-colors"
+              className="text-sm hover:text-accent transition-colors hover-text-accent"
             >
               Experience
             </button>
             <button
               onClick={() => scrollToSection("projects")}
-              className="text-sm hover:text-accent transition-colors"
+              className="text-sm hover:text-accent transition-colors hover-text-accent"
             >
               Projects
             </button>
             <button
               onClick={() => scrollToSection("skills")}
-              className="text-sm hover:text-accent transition-colors"
+              className="text-sm hover:text-accent transition-colors hover-text-accent"
             >
               Skills
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="text-sm hover:text-accent transition-colors"
+              className="text-sm hover:text-accent transition-colors hover-text-accent"
             >
               Contact
             </button>
@@ -218,7 +218,7 @@ export default function Home() {
               <AnimatedSection key={exp.id} className="stagger-animation" style={{ animationDelay: `${index * 100}ms` }}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                   <div className="md:col-span-1">
-                    <h3 className="text-xl font-bold text-accent">
+                    <h3 className="text-xl font-bold text-accent animate-glow">
                       {exp.startDate} - {exp.endDate}
                     </h3>
                     <p className="text-muted-foreground mt-2">{exp.location}</p>
@@ -258,7 +258,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {projectsData.map((project, index) => (
               <AnimatedSection key={project.id} style={{ animationDelay: `${index * 100}ms` }}>
-                <Card className="bg-card border-border hover:border-accent transition-colors group overflow-hidden">
+                <Card className="bg-card border-border hover:border-accent transition-colors group overflow-hidden hover-lift">
                   <div className="p-8 space-y-4">
                     <h3 className="text-2xl font-bold group-hover:text-accent transition-colors">
                       {project.title}
@@ -328,7 +328,7 @@ export default function Home() {
                 {visibleClients.map((client, idx) => (
                   <div
                     key={client.id}
-                    className="flex flex-col items-center justify-center p-8 bg-background border border-border rounded-lg hover:border-accent transition-all duration-300 transform hover:scale-105 animate-scale-in"
+                    className="flex flex-col items-center justify-center p-8 bg-background border border-border rounded-lg hover:border-accent transition-all duration-300 transform hover:scale-105 animate-scale-in hover-lift"
                     style={{ animationDelay: `${idx * 100}ms` }}
                   >
                     <div className="w-24 h-24 mb-4 flex items-center justify-center bg-background rounded-lg">
@@ -350,7 +350,7 @@ export default function Home() {
               <div className="flex justify-center gap-4 mt-12">
                 <button
                   onClick={prevClient}
-                  className="p-2 rounded-full border border-border hover:border-accent hover:bg-accent/10 transition-colors"
+                  className="p-2 rounded-full border border-border hover:border-accent hover:bg-accent/10 transition-colors hover-scale"
                   aria-label="Previous client"
                 >
                   <ChevronLeft size={24} className="text-accent" />
@@ -369,7 +369,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={nextClient}
-                  className="p-2 rounded-full border border-border hover:border-accent hover:bg-accent/10 transition-colors"
+                  className="p-2 rounded-full border border-border hover:border-accent hover:bg-accent/10 transition-colors hover-scale"
                   aria-label="Next client"
                 >
                   <ChevronRight size={24} className="text-accent" />
@@ -397,7 +397,7 @@ export default function Home() {
                     {technicalSkills.map((skill, idx) => (
                       <div
                         key={skill}
-                        className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors animate-slide-up"
+                        className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors animate-slide-up hover-glow"
                         style={{ animationDelay: `${idx * 50}ms` }}
                       >
                         <div className="w-2 h-2 bg-accent rounded-full" />
@@ -418,7 +418,7 @@ export default function Home() {
                     {toolsAndSkills.map((skill, idx) => (
                       <div
                         key={skill}
-                        className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors animate-slide-up"
+                        className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors animate-slide-up hover-glow"
                         style={{ animationDelay: `${idx * 50}ms` }}
                       >
                         <div className="w-2 h-2 bg-accent rounded-full" />
@@ -461,7 +461,7 @@ export default function Home() {
               <AnimatedSection key={edu.id} style={{ animationDelay: `${index * 100}ms` }}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                   <div className="md:col-span-1">
-                    <h3 className="text-xl font-bold text-accent">
+                    <h3 className="text-xl font-bold text-accent animate-glow">
                       {edu.startDate} - {edu.endDate}
                     </h3>
                   </div>
