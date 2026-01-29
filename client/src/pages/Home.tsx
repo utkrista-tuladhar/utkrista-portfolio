@@ -15,7 +15,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ExternalLink, Github, Linkedin, Mail, ChevronDown } from "lucide-react";
+import { ExternalLink, Github, Linkedin, Mail, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { portfolioData } from "@/data/portfolio";
@@ -24,6 +24,7 @@ import { educationData } from "@/data/education";
 import { projectsData, openSourceProjects, personalProjects } from "@/data/projects";
 import { technicalSkills, toolsAndSkills, languages } from "@/data/skills";
 import { contactData, quickFacts } from "@/data/contact";
+import { clientsData } from "@/data/clients";
 
 // Animated Section Wrapper Component
 function AnimatedSection({
@@ -60,6 +61,22 @@ export default function Home() {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const [clientCarouselIndex, setClientCarouselIndex] = useState(0);
+
+  const nextClient = () => {
+    setClientCarouselIndex((prev) => (prev + 1) % clientsData.length);
+  };
+
+  const prevClient = () => {
+    setClientCarouselIndex((prev) => (prev - 1 + clientsData.length) % clientsData.length);
+  };
+
+  const visibleClients = [
+    clientsData[clientCarouselIndex],
+    clientsData[(clientCarouselIndex + 1) % clientsData.length],
+    clientsData[(clientCarouselIndex + 2) % clientsData.length],
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -291,6 +308,72 @@ export default function Home() {
                     {project}
                   </div>
                 ))}
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Clients Carousel Section */}
+      <section className="py-20 border-t border-border bg-card/30">
+        <div className="container">
+          <AnimatedSection>
+            <h2 className="text-5xl font-bold mb-4">Trusted by Amazing Clients</h2>
+            <p className="text-lg text-muted-foreground mb-12">I have had the privilege of working with these wonderful brands and organizations</p>
+          </AnimatedSection>
+
+          <AnimatedSection>
+            <div className="relative">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {visibleClients.map((client, idx) => (
+                  <div
+                    key={client.id}
+                    className="flex flex-col items-center justify-center p-8 bg-background border border-border rounded-lg hover:border-accent transition-all duration-300 transform hover:scale-105 animate-scale-in"
+                    style={{ animationDelay: `${idx * 100}ms` }}
+                  >
+                    <div className="w-24 h-24 mb-4 flex items-center justify-center bg-background rounded-lg">
+                      <img
+                        src={client.logo}
+                        alt={client.name}
+                        className="max-w-20 max-h-20 object-contain"
+                      />
+                    </div>
+                    <h3 className="text-lg font-semibold text-center">{client.name}</h3>
+                    {client.description && (
+                      <p className="text-sm text-muted-foreground text-center mt-2">{client.description}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Carousel Controls */}
+              <div className="flex justify-center gap-4 mt-12">
+                <button
+                  onClick={prevClient}
+                  className="p-2 rounded-full border border-border hover:border-accent hover:bg-accent/10 transition-colors"
+                  aria-label="Previous client"
+                >
+                  <ChevronLeft size={24} className="text-accent" />
+                </button>
+                <div className="flex items-center gap-2">
+                  {clientsData.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setClientCarouselIndex(idx)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        idx === clientCarouselIndex ? "bg-accent w-8" : "bg-border"
+                      }`}
+                      aria-label={`Go to client ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+                <button
+                  onClick={nextClient}
+                  className="p-2 rounded-full border border-border hover:border-accent hover:bg-accent/10 transition-colors"
+                  aria-label="Next client"
+                >
+                  <ChevronRight size={24} className="text-accent" />
+                </button>
               </div>
             </div>
           </AnimatedSection>
