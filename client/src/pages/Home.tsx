@@ -17,12 +17,35 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ExternalLink, Github, Linkedin, Mail, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { portfolioData } from "@/data/portfolio";
 import { experienceData } from "@/data/experience";
 import { educationData } from "@/data/education";
 import { projectsData, openSourceProjects, personalProjects } from "@/data/projects";
 import { technicalSkills, toolsAndSkills, languages } from "@/data/skills";
 import { contactData, quickFacts } from "@/data/contact";
+
+// Animated Section Wrapper Component
+function AnimatedSection({
+  children,
+  className = "",
+  style,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.15 });
+  return (
+    <div
+      ref={ref as React.Ref<HTMLDivElement>}
+      className={`transition-all duration-700 ${isVisible ? "animate-slide-up" : "opacity-0 translate-y-10"} ${className}`}
+      style={style}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -149,7 +172,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hidden md:block relative h-96 flex items-center justify-center">
+          <div className="hidden md:block relative h-96 flex items-center justify-center animate-scale-in">
             <div className="relative w-full h-full rounded-lg overflow-hidden border-2 border-accent/30">
               <img
                 src={portfolioData.profilePhoto}
@@ -169,11 +192,13 @@ export default function Home() {
       {/* Experience Section */}
       <section id="experience" className="py-20 border-t border-border">
         <div className="container">
-          <h2 className="text-5xl font-bold mb-16">Experience</h2>
+          <AnimatedSection>
+            <h2 className="text-5xl font-bold mb-16">Experience</h2>
+          </AnimatedSection>
 
           <div className="space-y-12">
             {experienceData.map((exp, index) => (
-              <div key={exp.id}>
+              <AnimatedSection key={exp.id} className="stagger-animation" style={{ animationDelay: `${index * 100}ms` }}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                   <div className="md:col-span-1">
                     <h3 className="text-xl font-bold text-accent">
@@ -200,7 +225,7 @@ export default function Home() {
                   </div>
                 </div>
                 {index < experienceData.length - 1 && <div className="h-px bg-border mt-12" />}
-              </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -209,119 +234,134 @@ export default function Home() {
       {/* Projects Section */}
       <section id="projects" className="py-20 border-t border-border">
         <div className="container">
-          <h2 className="text-5xl font-bold mb-16">Featured Projects</h2>
+          <AnimatedSection>
+            <h2 className="text-5xl font-bold mb-16">Featured Projects</h2>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {projectsData.map((project) => (
-              <Card
-                key={project.id}
-                className="bg-card border-border hover:border-accent transition-colors group overflow-hidden"
-              >
-                <div className="p-8 space-y-4">
-                  <h3 className="text-2xl font-bold group-hover:text-accent transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">{project.description}</p>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    {project.highlights.map((highlight, idx) => (
-                      <li key={idx} className="flex gap-2">
-                        <span className="text-accent">✓</span>
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="flex gap-2 pt-4 flex-wrap">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+            {projectsData.map((project, index) => (
+              <AnimatedSection key={project.id} style={{ animationDelay: `${index * 100}ms` }}>
+                <Card className="bg-card border-border hover:border-accent transition-colors group overflow-hidden">
+                  <div className="p-8 space-y-4">
+                    <h3 className="text-2xl font-bold group-hover:text-accent transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed">{project.description}</p>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      {project.highlights.map((highlight, idx) => (
+                        <li key={idx} className="flex gap-2">
+                          <span className="text-accent">✓</span>
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex gap-2 pt-4 flex-wrap">
+                      {project.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-3 py-1 bg-accent/10 text-accent text-xs rounded-full"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </AnimatedSection>
             ))}
           </div>
 
-          <div className="mt-12 p-8 bg-card border border-border rounded-lg">
-            <h3 className="text-xl font-bold mb-4">Open Source & Personal Projects</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {openSourceProjects.map((project) => (
-                <a
-                  key={project.title}
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-accent hover:underline"
-                >
-                  {project.title} <ExternalLink size={16} />
-                </a>
-              ))}
-              {personalProjects.map((project) => (
-                <div key={project} className="text-muted-foreground">
-                  {project}
-                </div>
-              ))}
+          <AnimatedSection className="mt-12">
+            <div className="p-8 bg-card border border-border rounded-lg">
+              <h3 className="text-xl font-bold mb-4">Open Source & Personal Projects</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {openSourceProjects.map((project) => (
+                  <a
+                    key={project.title}
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-accent hover:underline"
+                  >
+                    {project.title} <ExternalLink size={16} />
+                  </a>
+                ))}
+                {personalProjects.map((project) => (
+                  <div key={project} className="text-muted-foreground">
+                    {project}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Skills Section */}
       <section id="skills" className="py-20 border-t border-border">
         <div className="container">
-          <h2 className="text-5xl font-bold mb-16">Skills & Expertise</h2>
+          <AnimatedSection>
+            <h2 className="text-5xl font-bold mb-16">Skills & Expertise</h2>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Technical Skills */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-bold mb-6">Technical Skills</h3>
-                <div className="space-y-3">
-                  {technicalSkills.map((skill) => (
-                    <div
-                      key={skill}
-                      className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors"
-                    >
-                      <div className="w-2 h-2 bg-accent rounded-full" />
-                      <span>{skill}</span>
-                    </div>
-                  ))}
+            <AnimatedSection>
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-2xl font-bold mb-6">Technical Skills</h3>
+                  <div className="space-y-3">
+                    {technicalSkills.map((skill, idx) => (
+                      <div
+                        key={skill}
+                        className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors animate-slide-up"
+                        style={{ animationDelay: `${idx * 50}ms` }}
+                      >
+                        <div className="w-2 h-2 bg-accent rounded-full" />
+                        <span>{skill}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            </AnimatedSection>
 
             {/* Tools & Other Skills */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-bold mb-6">Tools & Other Skills</h3>
-                <div className="space-y-3">
-                  {toolsAndSkills.map((skill) => (
-                    <div
-                      key={skill}
-                      className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors"
-                    >
-                      <div className="w-2 h-2 bg-accent rounded-full" />
-                      <span>{skill}</span>
-                    </div>
-                  ))}
+            <AnimatedSection>
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-2xl font-bold mb-6">Tools & Other Skills</h3>
+                  <div className="space-y-3">
+                    {toolsAndSkills.map((skill, idx) => (
+                      <div
+                        key={skill}
+                        className="flex items-center gap-3 p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors animate-slide-up"
+                        style={{ animationDelay: `${idx * 50}ms` }}
+                      >
+                        <div className="w-2 h-2 bg-accent rounded-full" />
+                        <span>{skill}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <h3 className="text-2xl font-bold mb-4">Languages</h3>
-                <div className="space-y-2">
-                  {languages.map((lang) => (
-                    <div key={lang} className="flex items-center gap-2">
-                      <span className="text-accent">•</span>
-                      <span>{lang}</span>
-                    </div>
-                  ))}
+                <div>
+                  <h3 className="text-2xl font-bold mb-4">Languages</h3>
+                  <div className="space-y-2">
+                    {languages.map((lang, idx) => (
+                      <div
+                        key={lang}
+                        className="flex items-center gap-2 animate-slide-up"
+                        style={{ animationDelay: `${idx * 50}ms` }}
+                      >
+                        <span className="text-accent">•</span>
+                        <span>{lang}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -329,11 +369,13 @@ export default function Home() {
       {/* Education Section */}
       <section className="py-20 border-t border-border">
         <div className="container">
-          <h2 className="text-5xl font-bold mb-16">Education</h2>
+          <AnimatedSection>
+            <h2 className="text-5xl font-bold mb-16">Education</h2>
+          </AnimatedSection>
 
           <div className="space-y-8">
             {educationData.map((edu, index) => (
-              <div key={edu.id}>
+              <AnimatedSection key={edu.id} style={{ animationDelay: `${index * 100}ms` }}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                   <div className="md:col-span-1">
                     <h3 className="text-xl font-bold text-accent">
@@ -346,7 +388,7 @@ export default function Home() {
                   </div>
                 </div>
                 {index < educationData.length - 1 && <div className="h-px bg-border mt-8" />}
-              </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -355,50 +397,64 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contact" className="py-20 border-t border-border">
         <div className="container">
-          <h2 className="text-5xl font-bold mb-16">Get In Touch</h2>
+          <AnimatedSection>
+            <h2 className="text-5xl font-bold mb-16">Get In Touch</h2>
+          </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="space-y-6">
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                I'm always interested in hearing about new projects and opportunities. Whether you
-                have a question or just want to say hello, feel free to reach out!
-              </p>
+            <AnimatedSection>
+              <div className="space-y-6">
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  I'm always interested in hearing about new projects and opportunities. Whether you
+                  have a question or just want to say hello, feel free to reach out!
+                </p>
 
-              <div className="space-y-4">
-                {contactData.map((contact) => (
-                  <div key={contact.type} className="flex gap-4 items-start">
-                    {contact.type === "email" && <Mail className="text-accent mt-1" size={20} />}
-                    {contact.type === "linkedin" && (
-                      <Linkedin className="text-accent mt-1" size={20} />
-                    )}
-                    {contact.type === "github" && <Github className="text-accent mt-1" size={20} />}
-                    {contact.type === "phone" && (
-                      <div className="text-accent mt-1">📱</div>
-                    )}
-                    <div>
-                      <p className="font-medium">{contact.label}</p>
-                      <a href={contact.href} className="text-accent hover:underline">
-                        {contact.value}
-                      </a>
+                <div className="space-y-4">
+                  {contactData.map((contact, idx) => (
+                    <div
+                      key={contact.type}
+                      className="flex gap-4 items-start animate-slide-in-left"
+                      style={{ animationDelay: `${idx * 100}ms` }}
+                    >
+                      {contact.type === "email" && <Mail className="text-accent mt-1" size={20} />}
+                      {contact.type === "linkedin" && (
+                        <Linkedin className="text-accent mt-1" size={20} />
+                      )}
+                      {contact.type === "github" && <Github className="text-accent mt-1" size={20} />}
+                      {contact.type === "phone" && (
+                        <div className="text-accent mt-1">📱</div>
+                      )}
+                      <div>
+                        <p className="font-medium">{contact.label}</p>
+                        <a href={contact.href} className="text-accent hover:underline">
+                          {contact.value}
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            </AnimatedSection>
 
-            <div className="bg-card border border-border rounded-lg p-8">
-              <h3 className="text-2xl font-bold mb-6">Quick Facts</h3>
-              <div className="space-y-4">
-                {quickFacts.map((fact) => (
-                  <div key={fact.label}>
-                    <p className="text-sm text-muted-foreground uppercase tracking-wide">
-                      {fact.label}
-                    </p>
-                    <p className="text-lg font-medium">{fact.value}</p>
-                  </div>
-                ))}
+            <AnimatedSection>
+              <div className="bg-card border border-border rounded-lg p-8 animate-scale-in">
+                <h3 className="text-2xl font-bold mb-6">Quick Facts</h3>
+                <div className="space-y-4">
+                  {quickFacts.map((fact, idx) => (
+                    <div
+                      key={fact.label}
+                      className="animate-slide-up"
+                      style={{ animationDelay: `${idx * 100}ms` }}
+                    >
+                      <p className="text-sm text-muted-foreground uppercase tracking-wide">
+                        {fact.label}
+                      </p>
+                      <p className="text-lg font-medium">{fact.value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
