@@ -15,9 +15,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ExternalLink, Github, Linkedin, Mail, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { ExternalLink, Github, Linkedin, Mail, ChevronDown, ChevronLeft, ChevronRight, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useTheme } from "@/contexts/ThemeContext";
 import { portfolioData } from "@/data/portfolio";
 import { experienceData } from "@/data/experience";
 import { educationData } from "@/data/education";
@@ -49,6 +50,7 @@ function AnimatedSection({
 }
 
 export default function Home() {
+  const { theme, toggleTheme } = useTheme();
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -110,6 +112,17 @@ export default function Home() {
               Contact
             </button>
           </div>
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full hover:bg-accent/10 transition-colors hover-scale"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? (
+              <Sun size={20} className="text-accent" />
+            ) : (
+              <Moon size={20} className="text-accent" />
+            )}
+          </button>
         </nav>
       </header>
 
