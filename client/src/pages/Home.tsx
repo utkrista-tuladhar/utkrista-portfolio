@@ -15,7 +15,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ExternalLink, Github, Linkedin, Mail, ChevronDown, ChevronLeft, ChevronRight, Moon, Sun } from "lucide-react";
+import { ExternalLink, Github, Linkedin, Mail, ChevronDown, ChevronLeft, ChevronRight, Moon, Sun, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -52,6 +52,7 @@ function AnimatedSection({
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
   const [scrollY, setScrollY] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -62,6 +63,7 @@ export default function Home() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: "smooth" });
+    setMobileMenuOpen(false);
   };
 
   const [clientCarouselIndex, setClientCarouselIndex] = useState(0);
@@ -86,6 +88,8 @@ export default function Home() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <nav className="container flex items-center justify-between h-16">
           <div className="text-xl font-bold font-poppins">UT</div>
+          
+          {/* Desktop Navigation */}
           <div className="hidden md:flex gap-8">
             <button
               onClick={() => scrollToSection("experience")}
@@ -112,18 +116,67 @@ export default function Home() {
               Contact
             </button>
           </div>
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-accent/10 transition-colors hover-scale"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? (
-              <Sun size={20} className="text-accent" />
-            ) : (
-              <Moon size={20} className="text-accent" />
-            )}
-          </button>
+
+          {/* Theme Toggle and Mobile Menu */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full hover:bg-accent/10 transition-colors hover-scale"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? (
+                <Sun size={20} className="text-accent" />
+              ) : (
+                <Moon size={20} className="text-accent" />
+              )}
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-full hover:bg-accent/10 transition-colors hover-scale"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <X size={20} className="text-accent" />
+              ) : (
+                <Menu size={20} className="text-accent" />
+              )}
+            </button>
+          </div>
         </nav>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md animate-slide-in-from-left">
+            <div className="container py-4 space-y-2">
+              <button
+                onClick={() => scrollToSection("experience")}
+                className="w-full text-left px-4 py-2 text-sm hover:bg-accent/10 rounded-md transition-colors"
+              >
+                Experience
+              </button>
+              <button
+                onClick={() => scrollToSection("projects")}
+                className="w-full text-left px-4 py-2 text-sm hover:bg-accent/10 rounded-md transition-colors"
+              >
+                Projects
+              </button>
+              <button
+                onClick={() => scrollToSection("skills")}
+                className="w-full text-left px-4 py-2 text-sm hover:bg-accent/10 rounded-md transition-colors"
+              >
+                Skills
+              </button>
+              <button
+                onClick={() => scrollToSection("contact")}
+                className="w-full text-left px-4 py-2 text-sm hover:bg-accent/10 rounded-md transition-colors"
+              >
+                Contact
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Hero Section */}
