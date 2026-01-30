@@ -23,7 +23,7 @@ export const toolsAndSkills: string[] = [
 ];
 
 export const languages: string[] = [
-  "Nepali (Native)",
-  "English (Fluent)",
-  "Nepal Bhasa",
+  // "Nepali (Native)",
+  // "English (Fluent)",
+  // "Nepal Bhasa",
 ];

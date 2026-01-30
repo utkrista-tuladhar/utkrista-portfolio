@@ -119,7 +119,7 @@ export default function Home() {
 
           {/* Theme Toggle and Mobile Menu */}
           <div className="flex items-center gap-4">
-            <button
+            {/* <button
               onClick={toggleTheme}
               className="p-2 rounded-full hover:bg-accent/10 transition-colors hover-scale"
               aria-label="Toggle theme"
@@ -129,7 +129,7 @@ export default function Home() {
               ) : (
                 <Moon size={20} className="text-accent" />
               )}
-            </button>
+            </button> */}
 
             {/* Mobile Menu Button */}
             <button
@@ -183,7 +183,7 @@ export default function Home() {
       <section
         className="relative min-h-screen flex items-center pt-16 overflow-hidden"
         style={{
-          backgroundImage: "url(/images/hero-bg.png)",
+          backgroundImage: theme === 'dark' ? "url(/images/hero-bg.png)" : "none",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",
@@ -205,7 +205,7 @@ export default function Home() {
                 <span className="text-accent">{portfolioData.name.split(" ")[1]}</span>
               </h1>
               <p className="text-xl text-muted-foreground">
-                {portfolioData.title} | {portfolioData.subtitle}
+                {portfolioData.title} {portfolioData.subtitle && ` | ${portfolioData.subtitle}`}
               </p>
             </div>
 
@@ -384,8 +384,8 @@ export default function Home() {
       <section className="py-20 border-t border-border bg-card/30">
         <div className="container">
           <AnimatedSection>
-            <h2 className="text-5xl font-bold mb-4">Trusted by Amazing Clients</h2>
-            <p className="text-lg text-muted-foreground mb-12">I have had the privilege of working with these wonderful brands and organizations</p>
+            <h2 className="text-5xl font-bold mb-4">Amazing Clients</h2>
+            <p className="text-lg text-muted-foreground mb-12">I have had the privilege of working with these wonderful organizations</p>
           </AnimatedSection>
 
           <AnimatedSection>
@@ -401,7 +401,7 @@ export default function Home() {
                       <img
                         src={client.logo}
                         alt={client.name}
-                        className="max-w-20 max-h-20 object-contain"
+                        className="max-w-32 max-h-32 object-contain bg-white rounded p-2"
                       />
                     </div>
                     <h3 className="text-lg font-semibold text-center">{client.name}</h3>
@@ -494,21 +494,23 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="text-2xl font-bold mb-4">Languages</h3>
-                  <div className="space-y-2">
-                    {languages.map((lang, idx) => (
-                      <div
-                        key={lang}
-                        className="flex items-center gap-2 animate-slide-up"
-                        style={{ animationDelay: `${idx * 50}ms` }}
-                      >
-                        <span className="text-accent">•</span>
-                        <span>{lang}</span>
-                      </div>
-                    ))}
+                {languages.length > 0 && (
+                  <div>
+                    <h3 className="text-2xl font-bold mb-4">Languages</h3>
+                    <div className="space-y-2">
+                      {languages.map((lang, idx) => (
+                        <div
+                          key={lang}
+                          className="flex items-center gap-2 animate-slide-up"
+                          style={{ animationDelay: `${idx * 50}ms` }}
+                        >
+                          <span className="text-accent">•</span>
+                          <span>{lang}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </AnimatedSection>
           </div>

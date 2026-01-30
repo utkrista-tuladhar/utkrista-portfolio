@@ -11,12 +11,27 @@ export interface Experience {
 
 export const experienceData: Experience[] = [
   {
+    id: "maitri-services",
+    title: "Software Engineer",
+    company: "Maitri Services Pvt. Ltd.",
+    location: "Pulchwok, Lalitpur",
+    startDate: "April 2025",
+    endDate: "Present",
+    description:
+      "Building and maintaining full-stack applications using Angular and Python (Django). Contributed to healthcare technology solutions for ECLAT Health, including browser extensions and backend systems, with a strong focus on performance, integration, and data ingestion.",
+    highlights: [
+      "Developed and maintained full-stack applications using Angular and Python (Django)",
+      "Contributed to healthcare products for ECLAT Health, including an EHR-integrated browser extension (Athena)",
+      "Implemented backend APIs and data ingestion pipelines, collaborating with cross-functional teams to optimize performance",
+    ],
+  },
+  {
     id: "code-himalaya",
     title: "Angular Developer",
     company: "Code Himalaya Pvt. Ltd.",
     location: "Kupondole, Lalitpur",
     startDate: "Aug 2023",
-    endDate: "Present",
+    endDate: "April 2025",
     description:
       "Building and maintaining web applications using Angular, HTML, CSS, and JavaScript. Designing scalable, reusable components following best practices and design patterns. Implementing efficient routing, data binding, and services with dependency injection.",
     highlights: [
