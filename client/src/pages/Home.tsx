@@ -90,7 +90,7 @@ export default function Home() {
           <div className="text-xl font-bold font-poppins">UT</div>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-8">
+          <div className="hidden md:flex gap-8 flex-1 justify-end">
             <button
               onClick={() => scrollToSection("experience")}
               className="text-sm hover:text-accent transition-colors hover-text-accent"
@@ -255,8 +255,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hidden md:block relative h-96 flex items-center justify-center animate-scale-in">
-            <div className="relative w-full h-full rounded-lg overflow-hidden border-2 border-accent/30">
+          <div className="hidden md:flex items-center justify-center animate-scale-in">
+            <div className="relative w-80 h-80 rounded-lg overflow-hidden border-2 border-accent/30 flex-shrink-0">
               <img
                 src={portfolioData.profilePhoto}
                 alt="Utkrista Tuladhar"
