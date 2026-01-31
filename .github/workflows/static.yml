@@ -43,6 +43,15 @@ jobs:
       
       - name: Build application
         run: npm run build
+
+        - name: Debug - List dist contents
+        run: |
+          echo "=== Dist folder structure ==="
+          ls -la dist/
+          echo "=== Looking for images ==="
+          find dist/ -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.svg" -o -name "*.webp" \) | head -20
+          echo "=== index.html content (first 50 lines) ==="
+          head -50 dist/index.html
       
       - name: Setup Pages
         uses: actions/configure-pages@v5
