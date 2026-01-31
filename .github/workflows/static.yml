@@ -44,7 +44,7 @@ jobs:
       - name: Build application
         run: npm run build
 
-        - name: Debug - List dist contents
+      - name: Debug - List dist contents
         run: |
           echo "=== Dist folder structure ==="
           ls -la dist/
