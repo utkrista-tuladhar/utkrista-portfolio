@@ -1,5 +1,6 @@
 {
   "name": "utkrista-portfolio",
+  "homepage": "https://utkrista-tuladhar.github.io/utkrista-portfolio",
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
@@ -9,7 +10,9 @@
     "start": "NODE_ENV=production node dist/index.js",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
