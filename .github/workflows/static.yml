@@ -1,10 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Pushes to main still deploy automatically.
-  push:
-    branches: [ main ]
-  # Manual run: pick any branch from the Actions tab.
+  # Manual only. Nothing deploys on push; run this from the Actions tab
+  # and pick the branch you want published.
   workflow_dispatch:
 
 # peaceiris/actions-gh-pages pushes a commit to the gh-pages branch,
