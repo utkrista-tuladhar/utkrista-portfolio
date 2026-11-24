@@ -22,11 +22,15 @@ export function ThemeProvider({
   switchable = false,
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => {
-    if (switchable) {
+    if (!switchable) return defaultTheme;
+    // Storage can throw in private mode or when site data is blocked, and a
+    // stale value could be anything — validate rather than trust the cast.
+    try {
       const stored = localStorage.getItem("theme");
-      return (stored as Theme) || defaultTheme;
+      return stored === "light" || stored === "dark" ? stored : defaultTheme;
+    } catch {
+      return defaultTheme;
     }
-    return defaultTheme;
   });
 
   useEffect(() => {
@@ -40,7 +44,11 @@ export function ThemeProvider({
     }
 
     if (switchable) {
-      localStorage.setItem("theme", theme);
+      try {
+        localStorage.setItem("theme", theme);
+      } catch {
+        /* Preference just won't persist; the UI still works this session. */
+      }
     }
   }, [theme, switchable]);
 
