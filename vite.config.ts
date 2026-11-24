@@ -154,7 +154,9 @@ const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(
 
 export default defineConfig({
   plugins,
-  base: '/utkrista-portfolio/',
+  // Root for the custom domain, which serves at '/'; the github.io project
+  // URL needs the repo name prefix. The deploy workflow sets BASE_PATH.
+  base: process.env.BASE_PATH || '/utkrista-portfolio/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './client/src'),
