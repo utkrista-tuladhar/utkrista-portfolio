@@ -4,14 +4,34 @@ on:
   # Manual only. Nothing deploys on push; run this from the Actions tab
   # and pick the branch you want published.
   workflow_dispatch:
+    inputs:
+      base_path:
+        description: "Asset base path"
+        required: true
+        default: "/"
+        type: choice
+        options:
+          # Custom domains serve from the root.
+          - "/"
+          # The github.io project URL needs the repo name prefix.
+          - "/utkrista-portfolio/"
 
-# peaceiris/actions-gh-pages pushes a commit to the gh-pages branch,
-# so the job token needs write access to repository contents.
+# Required by the native Pages deployment below.
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it mid-publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,12 +40,12 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
 
-      # Vite 7 requires Node 20.19+; the previous Node 18 pin could not build.
+      # Vite 7 requires Node 20.19+.
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm'
+          node-version: "20"
+          cache: "pnpm"
 
       # pnpm, not npm: package.json declares a patch for wouter under
       # pnpm.patchedDependencies, which npm ignores.
@@ -35,9 +55,17 @@ jobs:
 
       - name: Build
         run: pnpm run build
+        env:
+          BASE_PATH: ${{ inputs.base_path }}
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

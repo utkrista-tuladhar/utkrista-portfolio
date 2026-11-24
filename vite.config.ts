@@ -15,7 +15,9 @@ export default defineConfig({
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
-  base: "/utkrista-portfolio/", // Change to your repo name
+  // Root for the custom domain, which serves at '/'; the github.io project
+  // URL needs the repo name prefix. The deploy workflow sets BASE_PATH.
+  base: process.env.BASE_PATH || "/utkrista-portfolio/",
   build: {
     outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
