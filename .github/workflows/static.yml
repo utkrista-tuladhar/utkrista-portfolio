@@ -1,28 +1,45 @@
 name: Deploy to GitHub Pages
 
 on:
+  # Pushes to main still deploy automatically.
   push:
     branches: [ main ]
+  # Manual run: pick any branch from the Actions tab.
+  workflow_dispatch:
+
+# peaceiris/actions-gh-pages pushes a commit to the gh-pages branch,
+# so the job token needs write access to repository contents.
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
+      - uses: actions/checkout@v4
+
+      # Reads the pnpm version from the packageManager field in package.json.
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      # Vite 7 requires Node 20.19+; the previous Node 18 pin could not build.
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-      
+          node-version: '20'
+          cache: 'pnpm'
+
+      # pnpm, not npm: package.json declares a patch for wouter under
+      # pnpm.patchedDependencies, which npm ignores.
+      # --no-frozen-lockfile because pnpm-lock.yaml currently lags package.json.
       - name: Install dependencies
-        run: npm install
-      
+        run: pnpm install --no-frozen-lockfile
+
       - name: Build
-        run: npm run build
-      
+        run: pnpm run build
+
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
