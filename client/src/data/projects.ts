@@ -1,61 +1,69 @@
 export interface Project {
   id: string;
   title: string;
+  /** Short domain label shown beside the title, e.g. "Legal Tech". */
+  category: string;
   description: string;
   highlights: string[];
   technologies: string[];
+  /** Optional — rendered only when set, so unfilled fields stay invisible. */
+  year?: string;
+  role?: string;
   link?: string;
+  repo?: string;
 }
 
 export const projectsData: Project[] = [
   {
     id: "hiperbrains",
     title: "Hiperbrains Job Portal",
+    category: "Hiring Platform",
     description:
-      "Comprehensive job portal application with video conferencing, whiteboard sharing, and payment integration.",
+      "A job portal where interviews happen in the product itself. Live video rooms with a shared whiteboard, plus the billing and verification plumbing around them.",
     highlights: [
-      "Online video conferencing with whiteboard",
+      "Online video conferencing with collaborative whiteboard",
       "Firebase push notifications",
       "OTP verification via Twilio",
-      "PayPal & Stripe integration",
+      "PayPal & Stripe payment integration",
     ],
-    technologies: ["Angular", "Firebase", "Stripe"],
+    technologies: ["Angular", "Firebase", "Stripe", "Twilio"],
   },
   {
     id: "case-status",
     title: "Case Status Management",
+    category: "Legal Tech",
     description:
-      "Legal case management system for tracking and monitoring court cases in India with real-time updates.",
+      "Case tracking for Indian court proceedings. Lawyers search, follow and get notified on cases instead of refreshing a government portal by hand.",
     highlights: [
       "Case search and tracking",
-      "Real-time notifications",
-      "User-friendly interface",
-      "Improved case management efficiency",
+      "Real-time status notifications",
+      "Interface built around high-frequency lookups",
     ],
     technologies: ["Angular", "REST API"],
   },
   {
     id: "ssf",
-    title: "Social Security Fund (SSF)",
+    title: "Social Security Fund",
+    category: "GovTech",
     description:
-      "Government social security fund tracking and administration system for Nepal.",
+      "Administration and tracking system for Nepal's Social Security Fund, built to keep financial records auditable and compliant.",
     highlights: [
       "Fund tracking and administration",
-      "Accurate financial records",
-      "Government compliance",
+      "Accurate, auditable financial records",
+      "Government compliance requirements",
     ],
-    technologies: ["Angular", "Government"],
+    technologies: ["Angular", "REST API"],
   },
   {
     id: "hr-accounting",
-    title: "HR Accounting & Inventory",
+    title: "HR, Accounting & Inventory",
+    category: "Business Systems",
     description:
-      "Comprehensive business management system integrating user management, inventory, and accounting.",
+      "One system covering user management, stock and books. Most small businesses run those three in three disconnected tools.",
     highlights: [
-      "User management system",
+      "Role-based user management",
       "Inventory tracking",
-      "Basic accounting functions",
-      "Enhanced organizational efficiency",
+      "Core accounting functions",
     ],
     technologies: ["Angular", "Full-Stack"],
   },
@@ -63,20 +71,34 @@ export const projectsData: Project[] = [
 
 export interface OpenSourceProject {
   title: string;
+  description: string;
   url: string;
+  technologies: string[];
 }
 
 export const openSourceProjects: OpenSourceProject[] = [
   {
     title: "Movie Review App",
+    description: "Browse, rate and review films against a public movie API.",
     url: "https://github.com/utkrista-tuladhar/movie-review-app",
+    technologies: ["JavaScript", "REST API"],
   },
   {
     title: "Expense Tracker",
+    description: "Personal spending tracker with categorised breakdowns.",
     url: "https://github.com/utkrista-tuladhar/expense-tracker-app",
+    technologies: ["JavaScript", "LocalStorage"],
   },
 ];
 
-export const personalProjects = [
-  "Hand Sign Language Recognition (Final Year Project)",
+export interface PersonalProject {
+  title: string;
+  description: string;
+}
+
+export const personalProjects: PersonalProject[] = [
+  {
+    title: "Hand Sign Language Recognition",
+    description: "Final year project. Recognising hand signs from camera input.",
+  },
 ];

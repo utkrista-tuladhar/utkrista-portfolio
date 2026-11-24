@@ -9,8 +9,8 @@ export const contactData: ContactInfo[] = [
   {
     type: "email",
     label: "Email",
-    value: "utktul10@gmail.com",
-    href: "mailto:utktul10@gmail.com",
+    value: "utkrista.tul@gmail.com",
+    href: "mailto:utkrista.tul@gmail.com",
   },
   {
     type: "linkedin",
@@ -37,21 +37,21 @@ export interface QuickFact {
   value: string;
 }
 
+/**
+ * Rendered as the three tiles in the About bento grid.
+ * Location and years live in the hero, so they aren't repeated here.
+ */
 export const quickFacts: QuickFact[] = [
   {
-    label: "Location",
-    value: "Kathmandu, Nepal",
-  },
-  {
-    label: "Experience",
-    value: "3+ Years",
-  },
-  {
-    label: "Specialization",
-    value: "Angular & Frontend Development",
+    label: "Focus",
+    value: "End-to-end delivery: data model, API, interface",
   },
   {
     label: "Currently",
-    value: "Open to Opportunities",
+    value: "Healthcare tech at Maitri Services",
+  },
+  {
+    label: "Also does",
+    value: "Mentoring, and leading teams",
   },
 ];
